@@ -1,0 +1,66 @@
+#include <REG52.h>
+sbit OUT0 = P1^4;
+sbit OUT1 = P1^5;
+sbit OUT2 = P1^6;
+sbit OUT3 = P1^7;
+
+void delay1()
+{
+	int i, j;
+	for (i=0; i<1000; i++);
+		for (j=0; j<1000; j++);
+}
+void delay2()
+{
+	int i, j;
+	for (i=0; i<4000; i++);
+		for (j=0; j<4000; j++);
+}
+
+void main()
+{
+	unsigned char x;
+	P1 = 0x0B;
+	while(1)
+	{
+		x = P1&0x0B;
+		switch(x)
+		{
+			case 0: 
+				OUT3 = OUT2 = OUT1 = OUT0 = 1;
+				break;
+			
+			case 1: 
+				OUT3 = OUT2 = 1;
+				OUT1 = OUT0 = 0;
+				delay1();
+				
+				OUT3 = OUT0 = 0;
+				OUT2 = OUT1 = 1;
+				delay1();
+				
+				OUT3 = OUT2 = 0;
+				OUT0 = OUT1 = 1;
+				delay1();
+				break;
+			
+			case 8:
+				OUT3 = OUT2 = 0;
+				OUT1 = OUT0 = 1;
+				delay2();
+				
+				OUT3 = OUT0 = 0;
+				OUT2 = OUT1 = 1;
+				delay2();
+				
+				OUT3 = OUT2 = 1;
+				OUT0 = OUT1 = 0;
+				delay2();
+				break;
+				
+			case 11:
+				OUT3 = OUT2 = OUT1 = OUT0 = 0;
+			
+		}
+	}
+}
